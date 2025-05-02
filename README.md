@@ -168,7 +168,6 @@ This repository contains the API endpoints for managing and retrieving course-re
 
 - **Method**: `POST`
 - **Endpoint**: `/enrollment_form/`
-- **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
 - **Request Data**:
     - `key`: API key for authentication.
     - `name`: User Data.
@@ -182,7 +181,7 @@ This repository contains the API endpoints for managing and retrieving course-re
 
 - **Method**: `POST`
 - **Endpoint**: `/enroll_list/`
-- **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
+- **Description**: Retrieves details about all enrollment, returning a list of all enrollment details from the `enroll_list` model.
 - **Request Data**:
     - `key`: API key for authentication.
     - `device_id`: User device_id .
