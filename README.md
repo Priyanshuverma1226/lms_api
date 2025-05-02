@@ -173,7 +173,7 @@ This repository contains the API endpoints for managing and retrieving course-re
     - `name`: User Data.
     - `language`: User Data.
     - `mobile_no`: User Data.
-- **Response**: JSON with a list of all meeting details.
+- **Response**: JSON with a list   details.
 
 ---
 
@@ -186,7 +186,7 @@ This repository contains the API endpoints for managing and retrieving course-re
     - `key`: API key for authentication.
     - `device_id`: User device_id .
 
-- **Response**: JSON with a list of all meeting details.
+- **Response**: JSON with a list  details.
 
 ---
 
