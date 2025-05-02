@@ -32,6 +32,9 @@ This repository contains the API endpoints for managing and retrieving course-re
     - It also retrieves media files associated with the course's sub-lessons, dialogues, and documents.
 - **Request Data**:
     - `key`: API key for authentication.
+ 
+- **Optional**:
+    - `deivice_id`: Check User Course Assign or Enroll.
 - **Response**: JSON with all course data, including lessons, sub-lessons, topics, documents, dialogues, features, and testimonials.
 
 ---
@@ -44,6 +47,9 @@ This repository contains the API endpoints for managing and retrieving course-re
 - **Request Data**:
     - `id`: ID of the course to be retrieved.
     - `key`: API key for authentication.
+ 
+- **Optional**:
+    - `deivice_id`: Check User Course Assign or Enroll.
 - **Response**: JSON with the course data, including lessons, documents, dialogues, features, and testimonials.
 
 ---
@@ -153,6 +159,34 @@ This repository contains the API endpoints for managing and retrieving course-re
 - **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
 - **Request Data**:
     - `key`: API key for authentication.
+- **Response**: JSON with a list of all meeting details.
+
+---
+
+
+## **13. `enrollment_form`**
+
+- **Method**: `POST`
+- **Endpoint**: `/enrollment_form/`
+- **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
+- **Request Data**:
+    - `key`: API key for authentication.
+    - `name`: User Data.
+    - `language`: User Data.
+    - `mobile_no`: User Data.
+- **Response**: JSON with a list of all meeting details.
+
+---
+
+## **14. `enroll_list`**
+
+- **Method**: `POST`
+- **Endpoint**: `/enroll_list/`
+- **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
+- **Request Data**:
+    - `key`: API key for authentication.
+    - `device_id`: User device_id .
+
 - **Response**: JSON with a list of all meeting details.
 
 ---
