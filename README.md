@@ -187,6 +187,21 @@ This repository contains the API endpoints for managing and retrieving course-re
     - `device_id`: User device_id .
 
 - **Response**: JSON with a list  details.
+---
+
+## **15. `edit_user`**
+
+- **Method**: `POST`
+- **Endpoint**: `/edit_user/`
+- **Description**: Edit User details , returning a status  from the `edit_user` model.
+- **Request Data**:
+    - `key`: API key for authentication.
+    - `email`: User email .
+    - `name`: User name .
+    - `score`: User score .
+    - `location`: User location .
+
+- **Response**: JSON with   details.
 
 ---
 
