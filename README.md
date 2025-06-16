@@ -137,6 +137,7 @@ This repository contains the API endpoints for managing and retrieving course-re
 - **Request Data**:
     - `id`: ID of the file to be retrieved.
     - `key`: API key for authentication.
+    - `is_free`: Free Resource get.
 - **Response**: JSON with file details.
 
 ---
