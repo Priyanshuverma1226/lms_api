@@ -206,6 +206,20 @@ This repository contains the API endpoints for managing and retrieving course-re
 
 ---
 
+## **16. `get_file_free_resource`**
+
+- **Method**: `POST`
+- **Endpoint**: `/edit_user/`
+- **Description**: All Free Resource Get , returning a data  from the `get_file_free_resource` model.
+- **Request Data**:
+    - `key`: API key for authentication.
+    - `is_free`:is_free .
+  
+
+- **Response**: JSON with   details.
+
+---
+
 ## **How to Use:**
 
 1. **Authentication**: Each API request requires a valid `key` for authentication, which should be passed in the POST data.
