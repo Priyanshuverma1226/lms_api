@@ -10,215 +10,376 @@
 
 This repository contains the API endpoints for managing and retrieving course-related data. Below is the documentation for all available endpoints.
 
----
 
-## **1. `get_course_all`**
 
-- **Method**: `POST`
-- **Endpoint**: `/get_course_all/`
-- **Description**: Retrieves all available courses. It checks the provided key for validity, and if the key is valid, it returns a list of all courses along with additional details like the number of lessons and documents associated with each course.
-- **Request Data**:
-    - `key`: API key for authentication (passed in POST data).
-- **Response**: JSON with a list of all courses, including lesson count, document count, and related data (lessons, documents, dialogues, etc.).
+
+## 🔐 Common Parameter (Required for all endpoints)
+
+| Name | Type   | Description                |
+|------|--------|----------------------------|
+| key  | string | Authentication token value |
 
 ---
 
-## **2. `all_course`**
+## 1. 📦 `/all_course` - Get All Courses with Full Hierarchy
 
-- **Method**: `POST`
-- **Endpoint**: `/all_course/`
-- **Description**: Retrieves all courses along with their associated lessons, sub-lessons, topics, documents, dialogues, features, and testimonials.
-    - For each lesson, it further retrieves sub-lessons and topics associated with it.
-    - It also retrieves media files associated with the course's sub-lessons, dialogues, and documents.
-- **Request Data**:
-    - `key`: API key for authentication.
- 
-- **Optional**:
-    - `deivice_id`: Check User Course Assign or Enroll.
-- **Response**: JSON with all course data, including lessons, sub-lessons, topics, documents, dialogues, features, and testimonials.
+**Description:** Returns all courses with full details including lesson structure, documents, dialogues, features, and testimonials.
 
----
+**Additional Parameters:**
 
-## **3. `get_course`**
+| Name       | Type   | Required | Description                  |
+|------------|--------|----------|------------------------------|
+| device_id  | string | No       | Device ID to check enrollment |
 
-- **Method**: `POST`
-- **Endpoint**: `/get_course/`
-- **Description**: Retrieves a single course based on the provided `id`. It returns all related data for that course (lessons, documents, dialogues, etc.).
-- **Request Data**:
-    - `id`: ID of the course to be retrieved.
-    - `key`: API key for authentication.
- 
-- **Optional**:
-    - `deivice_id`: Check User Course Assign or Enroll.
-- **Response**: JSON with the course data, including lessons, documents, dialogues, features, and testimonials.
+**Returns:**
+
+- `lesson` → `sub_lesson` → `topic` → `module`
+- `document` → `sub_document` → `source`
+- `dialogue` → `sub_dialogue` → `file`, `audio`
+- `features`
+- `testimonals`
+- `enrolled_status`, `enrollded_data` (if `device_id` provided)
 
 ---
 
-## **4. `get_lesson`**
+## 2. 📘 `/get_course` - Get Single Course by ID
 
-- **Method**: `POST`
-- **Endpoint**: `/get_lesson/`
-- **Description**: Retrieves a single lesson based on the provided `id`. It returns the lesson data, including associated sub-lessons, topics, and related files.
-- **Request Data**:
-    - `id`: ID of the lesson to be retrieved.
-    - `key`: API key for authentication.
-- **Response**: JSON with lesson data, including sub-lessons, topics, and related files.
+**Description:** Fetch a course with its full nested data.
 
----
+**Parameters:**
 
-## **5. `get_document`**
+| Name       | Type   | Required | Description                  |
+|------------|--------|----------|------------------------------|
+| key        | string | Yes      | Auth token                   |
+| id         | int    | Yes      | Course ID                    |
+| device_id  | string | No       | Device ID to check enrollment |
 
-- **Method**: `POST`
-- **Endpoint**: `/get_document/`
-- **Description**: Retrieves a single document based on the provided `id`. It returns document data along with associated sub-documents and files.
-- **Request Data**:
-    - `id`: ID of the document to be retrieved.
-    - `key`: API key for authentication.
-- **Response**: JSON with document data, including sub-documents and related files.
+**Returns:** Same nested structure as `/all_course` but only for one course.
 
 ---
 
-## **6. `get_dialogue`**
+## 3. 📝 `/enrollment_form` - Submit Enrollment Form
 
-- **Method**: `POST`
-- **Endpoint**: `/get_dialogue/`
-- **Description**: Retrieves a single dialogue based on the provided `id`. It returns dialogue data along with related sub-dialogues, files, and audio.
-- **Request Data**:
-    - `id`: ID of the dialogue to be retrieved.
-    - `key`: API key for authentication.
-- **Response**: JSON with dialogue data, including sub-dialogues and related media files (audio, files).
+**Description:** Store basic user enrollment form data.
 
----
+**Parameters:**
 
-## **7. `get_progress`**
+| Name       | Type   | Required | Description       |
+|------------|--------|----------|-------------------|
+| key        | string | Yes      | Auth token        |
+| name       | string | Yes      | Name of user      |
+| language   | string | Yes      | Preferred language|
+| mobile_no  | string | Yes      | Mobile number     |
 
-- **Method**: `POST`
-- **Endpoint**: `/get_progress/`
-- **Description**: Retrieves the progress of a student on a specific course based on the `source` (course) and `student` (student ID).
-- **Request Data**:
-    - `source`: ID of the course.
-    - `student`: ID of the student.
-    - `key`: API key for authentication.
-- **Response**: JSON with progress data related to the student and course.
+**Returns:** Form submission status.
 
 ---
 
-## **8. `set_progress`**
+## 4. 📋 `/enroll_list` - Get Enrolled Courses
 
-- **Method**: `POST`
-- **Endpoint**: `/set_progress/`
-- **Description**: Sets or updates the progress of a student on a course, requiring the student ID, course ID, and a timestamp indicating the student's progress.
-- **Request Data**:
-    - `source`: ID of the course.
-    - `student`: ID of the student.
-    - `time_stamp`: Timestamp of the student's progress.
-    - `key`: API key for authentication.
-- **Response**: JSON indicating success or failure in setting/updating progress.
+**Description:** Get list of enrolled courses for a student.
 
----
+**Parameters:**
 
-## **9. `add_user`**
+| Name        | Type   | Required | Description         |
+|-------------|--------|----------|---------------------|
+| key         | string | Yes      | Auth token          |
+| device_id   | string | Yes      | Device ID           |
+| student_id  | string | Yes      | Student unique ID   |
 
-- **Method**: `POST`
-- **Endpoint**: `/add_user/`
-- **Description**: Allows the creation of a new user (student) by providing an email address. It generates an OTP for the user’s password and links the user to the `student` model.
-- **Request Data**:
-    - `email`: Email address of the user.
-    - `key`: API key for authentication.
-- **Response**: JSON indicating whether the user was already created or newly created, along with the user ID.
+**Returns:** Enrollments related to provided student and device.
 
 ---
 
-## **10. `get_file`**
+## 5. 📖 `/get_lesson` - Get All Lessons of a Course
 
-- **Method**: `POST`
-- **Endpoint**: `/get_file/`
-- **Description**: Retrieves a file based on its ID, returning the details of the file.
-- **Request Data**:
-    - `id`: ID of the file to be retrieved.
-    - `key`: API key for authentication.
-    - `is_free`: Free Resource get.
-- **Response**: JSON with file details.
+**Description:** Returns all lessons, sub-lessons, topics, and modules for a course.
 
----
+**Parameters:**
 
-## **11. `notification_get`**
+| Name | Type   | Required | Description   |
+|------|--------|----------|---------------|
+| key  | string | Yes      | Auth token    |
+| id   | int    | Yes      | Course ID     |
 
-- **Method**: `POST`
-- **Endpoint**: `/notification_get/`
-- **Description**: Retrieves all notifications, returning all notifications from the `notification` model.
-- **Request Data**:
-    - `key`: API key for authentication.
-- **Response**: JSON with a list of all notifications.
+**Returns:**  
+- Lessons  
+  └─ Sub-lessons  
+     └─ Topics  
+        └─ Modules  
+     └─ Source file (`source_id`)
 
 ---
 
-## **12. `get_meeting`**
+## 6. 📄 `/get_document` - Get Single Document
 
-- **Method**: `POST`
-- **Endpoint**: `/get_meeting/`
-- **Description**: Retrieves details about all meetings, returning a list of all meeting details from the `meeting_details` model.
-- **Request Data**:
-    - `key`: API key for authentication.
-- **Response**: JSON with a list of all meeting details.
+**Description:** Returns document and sub-documents with associated files.
 
----
+**Parameters:**
 
+| Name | Type   | Required | Description   |
+|------|--------|----------|---------------|
+| key  | string | Yes      | Auth token    |
+| id   | int    | Yes      | Document ID   |
 
-## **13. `enrollment_form`**
-
-- **Method**: `POST`
-- **Endpoint**: `/enrollment_form/`
-- **Request Data**:
-    - `key`: API key for authentication.
-    - `name`: User Data.
-    - `language`: User Data.
-    - `mobile_no`: User Data.
-- **Response**: JSON with a list   details.
+**Returns:**  
+- Sub-documents  
+  └─ Files (`source_id`)
 
 ---
 
-## **14. `enroll_list`**
+## 7. 🎙 `/get_dialogue` - Get Single Dialogue
 
-- **Method**: `POST`
-- **Endpoint**: `/enroll_list/`
-- **Description**: Retrieves details about all enrollment, returning a list of all enrollment details from the `enroll_list` model.
-- **Request Data**:
-    - `key`: API key for authentication.
-    - `device_id`: User device_id .
+**Description:** Returns dialogue and sub-dialogue structure.
 
-- **Response**: JSON with a list  details.
----
+**Parameters:**
 
-## **15. `edit_user`**
+| Name | Type   | Required | Description   |
+|------|--------|----------|---------------|
+| key  | string | Yes      | Auth token    |
+| id   | int    | Yes      | Dialogue ID   |
 
-- **Method**: `POST`
-- **Endpoint**: `/edit_user/`
-- **Description**: Edit User details , returning a status  from the `edit_user` model.
-- **Request Data**:
-    - `key`: API key for authentication.
-    - `email`: User email .
-    - `name`: User name .
-    - `score`: User score .
-    - `location`: User location .
-
-- **Response**: JSON with   details.
+**Returns:**  
+- Sub-dialogues  
+  └─ File (`file_id`)  
+  └─ Audio (`audio_id`)
 
 ---
 
-## **16. `get_file_free_resource`**
+## 8. 🧪 `/get_course_all` - Get Courses (Lite - Dev/Test)
 
-- **Method**: `POST`
-- **Endpoint**: `/edit_user/`
-- **Description**: All Free Resource Get , returning a data  from the `get_file_free_resource` model.
-- **Request Data**:
-    - `key`: API key for authentication.
-    - `is_free`:is_free .
-  
+**Description:** Returns all courses with just lesson and document counts. Mainly for internal use or testing.
 
-- **Response**: JSON with   details.
+**Parameters:**
+
+| Name | Type   | Required | Description   |
+|------|--------|----------|---------------|
+| key  | string | Yes      | Auth token    |
+
+**Returns:**  
+- `lesson` count  
+- `documents` count
 
 ---
+
+## 📈 `/get_progress` – Get Student's Progress
+
+**Description:** Fetch progress details of a student for a given source (lesson, document, or video).
+
+**Parameters:**
+
+| Name     | Type   | Required | Description                  |
+|----------|--------|----------|------------------------------|
+| key      | string | Yes      | Auth token                   |
+| source   | string | Yes      | Source ID (e.g., lesson ID)  |
+| student  | string | Yes      | Student ID                   |
+
+**Returns:**  
+Progress entry list with `time_stamp`.
+
+---
+
+## 📥 `/set_progress` – Set/Update Student's Progress
+
+**Description:** Save or update progress (e.g., video playback position).
+
+**Parameters:**
+
+| Name        | Type   | Required | Description                   |
+|-------------|--------|----------|-------------------------------|
+| key         | string | Yes      | Auth token                    |
+| source      | string | Yes      | Source ID (e.g., lesson ID)   |
+| student     | string | Yes      | Student ID                    |
+| time_stamp  | string | Yes      | Progress timestamp (in sec)   |
+
+**Returns:**  
+- Message confirming creation or update of progress.
+
+---
+
+## 👤 `/add_user` – Add or Get User by Email
+
+**Description:**  
+- If user exists → return existing.
+- If not → create user + student record + assign device.
+
+**Parameters:**
+
+| Name       | Type   | Required | Description       |
+|------------|--------|----------|-------------------|
+| key        | string | Yes      | Auth token        |
+| email      | string | Yes      | User email        |
+| device_id  | string | Yes      | Device identifier |
+
+**Returns:**  
+- Status = `Already` or `Created`  
+- `user_id` JSON
+
+---
+
+## 📂 `/get_file` – Get File Metadata
+
+**Description:** Return file information by file ID.
+
+**Parameters:**
+
+| Name | Type   | Required | Description |
+|------|--------|----------|-------------|
+| key  | string | Yes      | Auth token  |
+| id   | int    | Yes      | File ID     |
+
+**Returns:**  
+- File metadata
+
+---
+
+## 📂 `/get_file_free_resource` – Get Free Resource Files
+
+**Description:** Fetch files flagged as free resources.
+
+**Parameters:**
+
+| Name     | Type    | Required | Description                   |
+|----------|---------|----------|-------------------------------|
+| key      | string  | Yes      | Auth token                    |
+| is_free  | boolean | Yes      | Whether file is free or not   |
+
+**Returns:**  
+- List of free `Files`
+
+---
+
+## 📅 `/get_meeting` – Get Active Meeting Links
+
+**Description:** Fetch scheduled meetings that are active.
+
+**Parameters:**
+
+| Name       | Type   | Required | Description                     |
+|------------|--------|----------|---------------------------------|
+| key        | string | Yes      | Auth token                      |
+| course_id  | int    | No       | Filter meetings by course ID    |
+
+**Returns:**  
+- Meeting details (`status=True`)
+
+
+## 👤 `/edit_user` – Edit User Profile
+
+**Description:** Update user information like name, score, location, and profile photo.
+
+**Parameters:**
+
+| Name          | Type     | Required | Description                     |
+|---------------|----------|----------|---------------------------------|
+| key           | string   | Yes      | Auth token                      |
+| email         | string   | Yes      | User email                      |
+| name          | string   | No       | Full name                       |
+| score         | string   | No       | User score                      |
+| location      | string   | No       | User location                   |
+| profile_photo | file     | No       | Profile image (multipart form)  |
+
+**Returns:**  
+- User update status
+
+---
+
+## 🔑 `/token_page` – Token Management (HTML Page)
+
+**Description:** Display all generated tokens on a webpage.
+
+---
+
+## ➕ `/add_token` – Add a New API Token
+
+**Description:** Generate a 24-character random token and save it.
+
+**Parameters (POST only):**
+
+| Name | Type   | Required | Description     |
+|------|--------|----------|-----------------|
+| name | string | Yes      | Token label     |
+
+**Returns:**  
+- Redirect with success message
+
+---
+
+## ❌ `/delete_token/<id>` – Delete a Token
+
+**Description:** Delete token by its ID.
+
+---
+
+## 🔔 `/notification_get` – Get Notifications for a Student
+
+**Description:** Returns all notifications assigned to a student with message and title.
+
+**Parameters:**
+
+| Name        | Type   | Required | Description        |
+|-------------|--------|----------|--------------------|
+| key         | string | Yes      | Auth token         |
+| student_id  | string | Yes      | Student ID         |
+
+**Returns:**  
+- Notification list with `viewed` status and message details
+
+---
+
+## 🔄 `/notification_update` – Mark Notification as Viewed
+
+**Description:** Update notification viewed status.
+
+**Parameters:**
+
+| Name            | Type   | Required | Description              |
+|-----------------|--------|----------|--------------------------|
+| key             | string | Yes      | Auth token               |
+| notification_id | string | Yes      | Notification instance ID |
+
+**Returns:**  
+- Viewed = True
+
+---
+
+## 📽️ `/recording_get` – Get Course Recordings
+
+**Description:** Return all video class recordings for a course.
+
+**Parameters:**
+
+| Name       | Type   | Required | Description         |
+|------------|--------|----------|---------------------|
+| key        | string | Yes      | Auth token          |
+| course_id  | int    | Yes      | Course ID           |
+
+**Returns:**  
+- List of class recordings with optional course info
+
+---
+
+## 🌐 `/free_resource_get` – Get All Free Resources
+
+**Description:** Return all public/free learning resources.
+
+**Parameters:**
+
+| Name | Type   | Required | Description  |
+|------|--------|----------|--------------|
+| key  | string | Yes      | Auth token   |
+
+**Returns:**  
+- List of free resources  
+- Each resource includes associated `Files` object under `source_data`
+
+
+
+
+
+
+
+
 
 ## **How to Use:**
 
