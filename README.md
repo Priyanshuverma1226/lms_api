@@ -233,21 +233,7 @@ Progress entry list with `time_stamp`.
 
 ---
 
-## 📂 `/get_file_free_resource` – Get Free Resource Files
 
-**Description:** Fetch files flagged as free resources.
-
-**Parameters:**
-
-| Name     | Type    | Required | Description                   |
-|----------|---------|----------|-------------------------------|
-| key      | string  | Yes      | Auth token                    |
-| is_free  | boolean | Yes      | Whether file is free or not   |
-
-**Returns:**  
-- List of free `Files`
-
----
 
 ## 📅 `/get_meeting` – Get Active Meeting Links
 
