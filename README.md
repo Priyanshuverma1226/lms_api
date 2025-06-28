@@ -268,32 +268,6 @@ Progress entry list with `time_stamp`.
 **Returns:**  
 - User update status
 
----
-
-## 🔑 `/token_page` – Token Management (HTML Page)
-
-**Description:** Display all generated tokens on a webpage.
-
----
-
-## ➕ `/add_token` – Add a New API Token
-
-**Description:** Generate a 24-character random token and save it.
-
-**Parameters (POST only):**
-
-| Name | Type   | Required | Description     |
-|------|--------|----------|-----------------|
-| name | string | Yes      | Token label     |
-
-**Returns:**  
-- Redirect with success message
-
----
-
-## ❌ `/delete_token/<id>` – Delete a Token
-
-**Description:** Delete token by its ID.
 
 ---
 
