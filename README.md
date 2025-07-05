@@ -179,6 +179,23 @@ Progress entry list with `time_stamp`.
 
 ---
 
+
+## 📈 `/course_category_get` – Get Student's Progress
+
+**Description:** Fetch progress details of a student for a given source (lesson, document, or video).
+
+**Parameters:**
+
+| Name     | Type   | Required | Description                  |
+|----------|--------|----------|------------------------------|
+| key      | string | Yes      | Auth token                   |
+
+
+**Returns:**  
+Progress entry list with `course category`.
+
+---
+
 ## 📥 `/set_progress` – Set/Update Student's Progress
 
 **Description:** Save or update progress (e.g., video playback position).
