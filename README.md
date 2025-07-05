@@ -227,6 +227,7 @@ Progress entry list with `course category`.
 | key        | string | Yes      | Auth token        |
 | email      | string | Yes      | User email        |
 | device_id  | string | Yes      | Device identifier |
+| contact_email  | string | Yes      | Device identifier |
 
 **Returns:**  
 - Status = `Already` or `Created`  
